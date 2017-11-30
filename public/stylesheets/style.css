@@ -1,0 +1,39 @@
+.label-input-pair {
+	text-align: left;
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.label-input-pair > label, input {
+	display: block;
+}
+
+.break {
+	clear: both;
+}
+
+.delete {
+	display: block;
+	width: 32px;
+}
+
+#new-card {
+	text-align: left;
+}
+
+#new-card > img {
+	width: 36px;
+	height: 36px;
+	vertical-align: middle;
+}
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+}
