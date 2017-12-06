@@ -5,6 +5,7 @@ $(document).ready(function(){
 	});
 });
 
+
 function newCard() {
 	var lastCard = $("#cards").children().last();
 	var lastId = -1;
