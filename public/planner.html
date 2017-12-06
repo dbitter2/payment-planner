@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Payment Planner</title>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="javascripts/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+<body>
+	<h1>Plan Credit Payments</h1>
+
+	<div class="label-input-pair">
+		<label>Monthly Budget</label>
+		<input type="text" name="budget-input">
+	</div>
+	<br class="break"/>
+
+	<section id="cards">
+		<section id="card0">
+			<div class="label-input-pair">
+				<label for="name">Card Name</label>
+				<input type="text" name="name" id="name">
+			</div>
+			<div class="label-input-pair">
+				<label for="interest">Interest Percentage</label>
+				<input type="text" name="interest" id="interest">
+			</div>
+			<div class="label-input-pair">
+				<label for="ammount">Amount Due</label>
+				<input type="text" name="ammount" id="ammount">
+			</div>
+			<br class="break"/>
+
+			<div class="label-input-pair">
+				<label for="payment">Monthly Payment</label>
+				<input type="text" name="payment" id="payment">
+			</div>
+			<div class="label-input-pair">
+				<label for="paid">Paid Off By</label>
+				<input type="text" name="paid" id="paid"><br>
+			</div>
+			<img src="../assets/delete.png" class="delete"/>
+			<br class="break"/>
+		</section>
+	</section>
+
+	<div id="new-card">
+		<img src="../assets/add.png">
+		<label>Add New</label>
+	</div>
+</body>
+</html>
