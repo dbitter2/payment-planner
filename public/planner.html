@@ -4,6 +4,20 @@
 	<title>Payment Planner</title>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="javascripts/main.js"></script>
+	<!-- Import and configure the Firebase SDK -->
+	  <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+	  <script>
+	    // Initialize Firebase
+	    var config = {
+	      apiKey: "AIzaSyD6z2DYVPLxoW-6ux3e24NjU6GMlBtt1SA",
+	      authDomain: "payment-planner.firebaseapp.com",
+	      databaseURL: "https://payment-planner.firebaseio.com",
+	      projectId: "payment-planner",
+	      storageBucket: "payment-planner.appspot.com",
+	      messagingSenderId: "829211630104"
+	    };
+	    firebase.initializeApp(config);
+	  </script>
 	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 </head>
 <body>
