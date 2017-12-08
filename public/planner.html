@@ -6,6 +6,20 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
 	<script src="https://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
 	<script src="javascripts/main.js"></script>
+	<!-- Import and configure the Firebase SDK -->
+	  <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+	  <script>
+	    // Initialize Firebase
+	    var config = {
+	      apiKey: "AIzaSyD6z2DYVPLxoW-6ux3e24NjU6GMlBtt1SA",
+	      authDomain: "payment-planner.firebaseapp.com",
+	      databaseURL: "https://payment-planner.firebaseio.com",
+	      projectId: "payment-planner",
+	      storageBucket: "payment-planner.appspot.com",
+	      messagingSenderId: "829211630104"
+	    };
+	    firebase.initializeApp(config);
+	  </script>
 	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 </head>
 <body ng-app="main" ng-controller="main">
