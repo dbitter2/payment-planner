@@ -2,7 +2,22 @@ var app = angular.module("main", []);
 
 app.controller("main", function ($scope) {
 	$scope.cards = [];
-	$scope.budget = 0;
+	$scope.budget = 1;
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			var userId = user.uid;
+			var database = firebase.database();
+			var budget = 1;
+			var cards = [];
+			database.ref("users/" + userId).once("value").then(function(snapshot) {
+				if(snapshot.val() && snapshot.val().cards && snapshot.val().budget) {
+					$scope.cards = snapshot.val().cards;
+					$scope.budget = snapshot.val().budget;
+					$scope.$apply();
+				}
+			});
+		}
+	});
 
 	$scope.newCard = function () {
 		card = {
@@ -34,7 +49,7 @@ app.directive("creditcard", function () {
 			"<div>" +
 				"<div class='label-input-pair'>" +
 					"<label for='name'>Card Name</label>" +
-					"<input ng-model='card.name' type='text' name='name' id='name'>" +
+					"<input ng-model='card.name' ng-change='update()' ng-model-options='{debounce:800}' type='text' name='name' id='name'>" +
 				"</div>" +
 				"<div class='label-input-pair'>" +
 					"<label for='balance'>Balance</label>" +
@@ -81,9 +96,12 @@ app.directive("creditcard", function () {
 
 function update(scope) {
 	if(validateCards(scope)) {
-		sortCards(scope);
-		updateMonthlies(scope);
-		updatePayoffs(scope);
+		if(scope.cards.length > 0) {
+			sortCards(scope);
+			updateMonthlies(scope);
+			updatePayoffs(scope);
+		}
+		updateDatabase(scope);
 	}
 }
 
@@ -139,6 +157,14 @@ function monthsLeft(balance, interest, monthly) {
 	return months;
 }
 
+function updateDatabase(scope) {
+	var userId = firebase.auth().currentUser.uid;
+	var database = firebase.database().ref("users/" + userId).set({
+		cards: angular.copy(scope.cards),
+		budget: scope.budget
+	});
+}
+
 function validateCards(scope) {
 	var valid = true;
 	scope.cards.forEach(function (card) {
@@ -146,7 +172,7 @@ function validateCards(scope) {
 			valid = false;
 		}
 	});
-	return valid && scope.cards.length > 0;
+	return valid;
 }
 
 function validateCard(card) {
