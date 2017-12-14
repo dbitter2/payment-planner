@@ -53,12 +53,12 @@
     }
     
 	function handleSignOut() {
-	  if(!document.getElementById("signout").disabled) {
+	  // if(!document.getElementById("signout").disabled) {
 	  	var googleAuth = gapi.auth2.getAuthInstance();
 	    googleAuth.signOut().then(function() {
 	      firebase.auth().signOut();
 	    });
-	  }
+	  // }
     }	
 
 
@@ -67,7 +67,7 @@
       // [START authstatelistener]
       firebase.auth().onAuthStateChanged(function(user){
         if (!user) {
-          // window.location= '/';
+          window.location= '/';
           // [END_EXCLUDE]
         } else {
           // User is signed out.

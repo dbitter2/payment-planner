@@ -134,12 +134,17 @@ function updateMonthlies(scope) {
 function updatePayoffs(scope) {
 	var prevMonths = 0;
 	var additionalMonthly = 0;
+	console.log(prevMonths);
+	console.log(additionalMonthly);
 	scope.cards.forEach(function (card) {
 		var tempBalance = balanceAfter(card, prevMonths);
+		console.log(tempBalance);
 		var tempMonthly = card.monthly + additionalMonthly;
+		console.log(tempMonthly);
 		var monthsToGo = monthsLeft(tempBalance, card.interest * 0.01, tempMonthly);
+		console.log(monthsToGo);
 		var paidOff = (prevMonths + monthsToGo).months().fromNow();
-		card.paidBy = paidOff.toString("M/yy");
+		card.paidBy = paidOff.toString("M/yyyy");
 		prevMonths += monthsToGo;
 		additionalMonthly += tempMonthly;
 	});
@@ -149,6 +154,7 @@ function balanceAfter(card, prevMonths) {
 	var tempBalance = card.balance;
 	var interest = card.interest * 0.01;
 	for(var i = 0; i < prevMonths; i++) {
+		console.log(tempBalance);
 		tempBalance = (tempBalance - card.monthly) * (1.0 + interest);
 	}
 	return tempBalance;
@@ -156,6 +162,8 @@ function balanceAfter(card, prevMonths) {
 
 function monthsLeft(balance, interest, monthly) {
 	var numerator = -1.0 * Math.log10(1.0 - ((interest * balance) / monthly));
+	console.log(numerator);
+	console.log(numerator);
 	var denominator = Math.log10(1.0 + interest);
 	var months = Math.ceil(numerator / denominator);
 	return months;
