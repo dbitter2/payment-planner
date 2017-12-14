@@ -10,9 +10,13 @@ app.controller("main", function ($scope) {
 			var budget = 1;
 			var cards = [];
 			database.ref("users/" + userId).once("value").then(function(snapshot) {
-				if(snapshot.val() && snapshot.val().cards && snapshot.val().budget) {
-					$scope.cards = snapshot.val().cards;
-					$scope.budget = snapshot.val().budget;
+				if(snapshot.val()) {
+					if(snapshot.val().cards) {
+						$scope.cards = snapshot.val().cards;
+					}
+					if(snapshot.val().budget) {
+						$scope.budget = snapshot.val().budget;
+					}
 					$scope.$apply();
 				}
 			});
