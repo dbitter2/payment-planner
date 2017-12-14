@@ -230,3 +230,9 @@ header.masthead {
     background-color: #ee4b28 !important; }
   .btn-primary:active, .btn-primary:focus {
     box-shadow: 0 0 0 0.2rem rgba(240, 95, 64, 0.5) !important; }
+
+.col-centered{
+    float: none;
+    margin: 15% auto;
+
+}

@@ -12,6 +12,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="stylesheets/creative.css">
 
     <!-- Custom fonts for this template -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -40,7 +41,7 @@
   <meta name="google-signin-cookiepolicy" content="single_host_origin">
   <meta name="google-signin-scope" content="profile email">
   <!-- [END google_config] -->
-  <title>Google Sign In Example</title>
+  <title>Log in</title>
 
   <!-- Material Design Theming -->
   <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
@@ -160,9 +161,9 @@
           // var uid = user.uid;
           // var providerData = user.providerData;
           // [START_EXCLUDE]
-          document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
-          document.getElementById('signout').disabled = false;
-          document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+          // document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+          // document.getElementById('signout').disabled = false;
+          // document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
           // [END_EXCLUDE]
         } else {
           // User is signed out.
@@ -183,29 +184,25 @@
 </head>
 <body id="page-top">
 
-  <main class="mdl-layout__content mdl-color--grey-100">
-    <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-
+    <!-- <div class="row"> -->
+      <div class="col-md-3 col-centered">
+      <div class="card">
       <!-- Container for the demo -->
-      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+      <div class="card-body">
+        <div>
           <p>Sign in with your Google account below.</p>
           <!-- [START google_button] -->
           <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
           <!-- [END google_button] -->
           <br>
-          <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="signout" name="signout">Sign Out</button>
-
-          <div class="quickstart-user-details-container">
-            Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-            <div>Firebase auth <code>currentUser</code> object value:</div>
-            <pre><code id="quickstart-account-details">null</code></pre>
-          </div>
+         <!--  <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="signout" name="signout">Sign Out</button>
+ -->
         </div>
       </div>
+      </div>
+      </div>
 
-    </div>
-  </main>
+    <!-- </div> -->
 </div>
 </body>
 </html>
