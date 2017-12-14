@@ -5,8 +5,6 @@ app.controller("main", function ($scope) {
 	$scope.budget = 0;
 
 	$scope.newCard = function () {
-		console.log($scope.budget);
-		console.log($scope.cards);
 		card = {
 			name: "New Card",
 			balance: undefined,
@@ -16,6 +14,10 @@ app.controller("main", function ($scope) {
 			paidBy: undefined
 		};
 		$scope.cards.push(card);
+	};
+
+	$scope.update = function() {
+		update($scope);
 	};
 });
 
@@ -35,16 +37,16 @@ app.directive("creditcard", function () {
 					"<input ng-model='card.name' type='text' name='name' id='name'>" +
 				"</div>" +
 				"<div class='label-input-pair'>" +
-					"<label for='balance'>Total Balance</label>" +
-					"<input ng-model='card.balance' ng-change='update()' type='number' name='balance' id='balance'>" +
+					"<label for='balance'>Balance</label>" +
+					"<input ng-model='card.balance' ng-change='update()' ng-model-options='{debounce:800}' min='1' type='number' name='balance' id='balance'>" +
 				"</div>" +
 				"<div class='label-input-pair'>" +
-					"<label for='interest'>Interest Percentage</label>" +
-					"<input ng-model='card.interest' ng-change='update()' type='number' name='interest' id='interest'>" +
+					"<label for='interest'>Interest Rate</label>" +
+					"<input ng-model='card.interest' ng-change='update()' ng-model-options='{debounce:800}' min='0' type='number' name='interest' id='interest'>" +
 				"</div>" +
 				"<div class='label-input-pair'>" +
 					"<label for='minimum'>Minimum Payment</label>" +
-					"<input ng-model='card.minimum' ng-change='update()' type='number' name='minimum' id='minimum'>" +
+					"<input ng-model='card.minimum' ng-change='update()' ng-model-options='{debounce:800}' min='0' type='number' name='minimum' id='minimum'>" +
 				"</div>" +
 				"<br class='break'/>" +
 				"<div class='label-input-pair'>" +
@@ -71,44 +73,82 @@ app.directive("creditcard", function () {
 			scope.update();
 		};
 
-		scope.update = function () {
-			if(validateCards()) {
-				scope.cards.sort(function (a, b) {
-					return b.interest - a.interest;
-				});
-				console.log(scope.cards);
-				var tempBudget = scope.budget;
-				scope.cards.forEach(function (card){
-					if(tempBudget >= card.minimum) {
-						card.monthly = card.minimum;
-					} else if(tempBudget > 0) {
-						card.monthly = tempBudget;
-					} else {
-						card.monthly = 0;
-					}
-					tempBudget -= card.monthly;
-				});
-				scope.cards[0].monthly += tempBudget;
-			} else {
-				console.log("invalid cards");
-			}
+		scope.update = function() {
+			update(scope);
 		};
-
-		function validateCards() {
-			var valid = true;
-			scope.cards.forEach(function (card) {
-				console.log(validateCard(card));
-				if(!validateCard(card)) {
-					valid = false;
-				}
-			});
-			return valid;
-		}
-
-		function validateCard(card) {
-			console.log(card);
-			console.log(card.balance !== undefined && card.interest !== undefined && card.minimum !== undefined);
-			return card.balance !== undefined && card.interest !== undefined && card.minimum !== undefined;
-		}
 	}
 });
+
+function update(scope) {
+	if(validateCards(scope)) {
+		sortCards(scope);
+		updateMonthlies(scope);
+		updatePayoffs(scope);
+	}
+}
+
+function sortCards(scope) {
+	scope.cards.sort(function (a, b) {
+		return b.interest - a.interest;
+	});
+}
+
+function updateMonthlies(scope) {
+	var tempBudget = scope.budget;
+	scope.cards.forEach(function (card){
+		if(tempBudget >= card.minimum) {
+			card.monthly = card.minimum;
+		} else if(tempBudget > 0) {
+			card.monthly = tempBudget;
+		} else {
+			card.monthly = 0;
+		}
+		tempBudget -= card.monthly;
+	});
+	var first = scope.cards[0];
+	first.monthly += tempBudget;
+}
+
+function updatePayoffs(scope) {
+	var prevMonths = 0;
+	var additionalMonthly = 0;
+	scope.cards.forEach(function (card) {
+		var tempBalance = balanceAfter(card, prevMonths);
+		var tempMonthly = card.monthly + additionalMonthly;
+		var monthsToGo = monthsLeft(tempBalance, card.interest * 0.01, tempMonthly);
+		var paidOff = (prevMonths + monthsToGo).months().fromNow();
+		card.paidBy = paidOff.toString("M-yyyy");
+		prevMonths += monthsToGo;
+		additionalMonthly += tempMonthly;
+	});
+}
+
+function balanceAfter(card, prevMonths) {
+	var tempBalance = card.balance;
+	var interest = card.interest * 0.01;
+	for(var i = 0; i < prevMonths; i++) {
+		tempBalance = (tempBalance - card.monthly) * (1.0 + interest);
+	}
+	return tempBalance;
+}
+
+function monthsLeft(balance, interest, monthly) {
+	var numerator = -1.0 * Math.log10(1.0 - ((interest * balance) / monthly));
+	var denominator = Math.log10(1.0 + interest);
+	var months = Math.ceil(numerator / denominator);
+	return months;
+}
+
+function validateCards(scope) {
+	var valid = true;
+	scope.cards.forEach(function (card) {
+		if(!validateCard(card)) {
+			valid = false;
+		}
+	});
+	return valid && scope.cards.length > 0;
+}
+
+function validateCard(card) {
+	return card.balance !== undefined && card.interest !== undefined && card.minimum !== undefined;
+}
