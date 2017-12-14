@@ -56,11 +56,9 @@
       // [START authstatelistener]
       firebase.auth().onAuthStateChanged(function(user){
         if (!user) {
-          window.location= 'login.html';
+          window.location= '/';
           // [END_EXCLUDE]
         } else {
-
-          console.log("it worked");
           // User is signed out.
           // [START_EXCLUDE]
           document.getElementById('signout').disabled = false;
@@ -80,11 +78,11 @@
 </head>
 <body ng-app="main" ng-controller="main">
 	<button disabled class="mdl-button mdl-js-button mdl-button--raised" id="signout" name="signout">Sign Out</button>
-	<h1>Plan Credit Payments</h1>
+	<h1>Plan Credit Card Payments</h1>
 
 	<div class="label-input-pair">
 		<label>Monthly Budget</label>
-		<input ng-change="update()" ng-model-options='{debounce:850}' ng-model="budget" min="1" type="number" name="budget-input">
+		<input ng-change="update()" ng-model-options='{debounce:800}' ng-model="budget" min="1" type="number" name="budget-input">
 	</div>
 	<br class="break"/>
 
@@ -100,30 +98,3 @@
 	</div>
 </body>
 </html>
-
-<!-- <section id="card0">
-	<div class="label-input-pair">
-		<label for="name">Card Name</label>
-		<input type="text" name="name" id="name">
-	</div>
-	<div class="label-input-pair">
-		<label for="interest">Interest Percentage</label>
-		<input type="text" name="interest" id="interest">
-	</div>
-	<div class="label-input-pair">
-		<label for="ammount">Amount Due</label>
-		<input type="text" name="ammount" id="ammount">
-	</div>
-	<br class="break"/>
-
-	<div class="label-input-pair">
-		<label for="payment">Monthly Payment</label>
-		<input type="text" name="payment" id="payment">
-	</div>
-	<div class="label-input-pair">
-		<label for="paid">Paid Off By</label>
-		<input type="text" name="paid" id="paid"><br>
-	</div>
-	<img src="assets/delete.png" class="delete"/>
-	<br class="break"/>
-</section> -->
