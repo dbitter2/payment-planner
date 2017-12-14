@@ -37,7 +37,6 @@
 	      messagingSenderId: "829211630104"
 	    };
 	    firebase.initializeApp(config);
-	    console.log("firebase");
 	  </script>
 	  <script src="javascripts/main.js"></script>
 	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
@@ -67,7 +66,7 @@
       // [START authstatelistener]
       firebase.auth().onAuthStateChanged(function(user){
         if (!user) {
-          window.location= '/';
+          // window.location= '/';
           // [END_EXCLUDE]
         } else {
           // User is signed out.
@@ -95,7 +94,7 @@
 	</div>
 	<div id="container">
 		<div class="label-input-pair">
-			<label><b>Monthly Budget</b></label>
+			<label id="budget-label"><b>Monthly Budget</b></label>
 			<input ng-change="update()" ng-model-options='{debounce:800}' ng-model="budget" min="1" type="number" name="budget-input">
 		</div>
 		<br class="break"/>

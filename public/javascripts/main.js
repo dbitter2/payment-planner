@@ -111,6 +111,9 @@ function update(scope) {
 
 function sortCards(scope) {
 	scope.cards.sort(function (a, b) {
+		if(a.interest === b.interest) {
+			return b.balance - a.balance;
+		}
 		return b.interest - a.interest;
 	});
 }
@@ -142,10 +145,14 @@ function updatePayoffs(scope) {
 		var tempMonthly = card.monthly + additionalMonthly;
 		console.log(tempMonthly);
 		var monthsToGo = monthsLeft(tempBalance, card.interest * 0.01, tempMonthly);
+		var testMonths = monthsLeftTest(tempBalance, card.interest * 0.01, tempMonthly);
+		console.log("original");
 		console.log(monthsToGo);
-		var paidOff = (prevMonths + monthsToGo).months().fromNow();
-		card.paidBy = paidOff.toString("M/yyyy");
-		prevMonths += monthsToGo;
+		console.log("test");
+		console.log(testMonths);
+		var paidOff = (prevMonths + testMonths).months().fromNow();
+		card.paidBy = paidOff.toString("M-yyyy");
+		prevMonths += testMonths;
 		additionalMonthly += tempMonthly;
 	});
 }
@@ -163,9 +170,18 @@ function balanceAfter(card, prevMonths) {
 function monthsLeft(balance, interest, monthly) {
 	var numerator = -1.0 * Math.log10(1.0 - ((interest * balance) / monthly));
 	console.log(numerator);
-	console.log(numerator);
 	var denominator = Math.log10(1.0 + interest);
+	console.log(denominator);
 	var months = Math.ceil(numerator / denominator);
+	return months;
+}
+
+function monthsLeftTest(balance, interest, monthly) {
+	var months = 0;
+	while(balance > 0) {
+		months++;
+		balance = (balance - monthly) * (1.0 + interest);
+	}
 	return months;
 }
 
