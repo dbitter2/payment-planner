@@ -52,12 +52,10 @@
     }
     
 	function handleSignOut() {
-	  // if(!document.getElementById("signout").disabled) {
 	  	var googleAuth = gapi.auth2.getAuthInstance();
 	    googleAuth.signOut().then(function() {
 	      firebase.auth().signOut();
 	    });
-	  // }
     }	
 
 
@@ -66,7 +64,7 @@
       // [START authstatelistener]
       firebase.auth().onAuthStateChanged(function(user){
         if (!user) {
-          // window.location= '/';
+          window.location= '/';
           // [END_EXCLUDE]
         } else {
           // User is signed out.
@@ -88,8 +86,7 @@
 </head>
 <body ng-app="main" ng-controller="main">
 	<div id="header">
-		<img disabled src="assets/signout.png" id="signout" name="signout">
-		<!-- <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="signout" name="signout">Sign Out</button> -->
+		<img src="assets/signout.png" id="signout" name="signout">
 		<h1 id="heading1">Plan Credit Card Payments</h1>
 	</div>
 	<div id="container">
@@ -108,7 +105,7 @@
 
 		<div ng-click="newCard()" id="new-card">
 			<img src="assets/add.png">
-			<label>Add New</label>
+			<label>Add Card</label>
 		</div>
 	</div>
 </body>

@@ -50,7 +50,7 @@ app.directive("creditcard", function () {
 		restrict: "E",
 		replace: "true",
 		template: (
-			"<div>" +
+			"<div id='card-{{cards.indexOf(card)}}'>" +
 				"<div class='label-input-pair'>" +
 					"<label for='name'>Name</label>" +
 					"<input ng-model='card.name' ng-change='update()' ng-model-options='{debounce:800}' type='text' name='name' id='name'>" +
@@ -137,22 +137,18 @@ function updateMonthlies(scope) {
 function updatePayoffs(scope) {
 	var prevMonths = 0;
 	var additionalMonthly = 0;
-	console.log(prevMonths);
-	console.log(additionalMonthly);
 	scope.cards.forEach(function (card) {
 		var tempBalance = balanceAfter(card, prevMonths);
-		console.log(tempBalance);
 		var tempMonthly = card.monthly + additionalMonthly;
-		console.log(tempMonthly);
 		var monthsToGo = monthsLeft(tempBalance, card.interest * 0.01, tempMonthly);
-		var testMonths = monthsLeftTest(tempBalance, card.interest * 0.01, tempMonthly);
-		console.log("original");
-		console.log(monthsToGo);
-		console.log("test");
-		console.log(testMonths);
-		var paidOff = (prevMonths + testMonths).months().fromNow();
-		card.paidBy = paidOff.toString("M-yyyy");
-		prevMonths += testMonths;
+		if(!isNaN(monthsToGo)) {
+			var paidOff = (prevMonths + monthsToGo).months().fromNow();
+			card.paidBy = paidOff.toString("M-yyyy");
+		} else {
+			card.paidBy = "Never";
+			return;
+		}
+		prevMonths += monthsToGo;
 		additionalMonthly += tempMonthly;
 	});
 }
@@ -161,7 +157,6 @@ function balanceAfter(card, prevMonths) {
 	var tempBalance = card.balance;
 	var interest = card.interest * 0.01;
 	for(var i = 0; i < prevMonths; i++) {
-		console.log(tempBalance);
 		tempBalance = (tempBalance - card.monthly) * (1.0 + interest);
 	}
 	return tempBalance;
@@ -169,19 +164,8 @@ function balanceAfter(card, prevMonths) {
 
 function monthsLeft(balance, interest, monthly) {
 	var numerator = -1.0 * Math.log10(1.0 - ((interest * balance) / monthly));
-	console.log(numerator);
 	var denominator = Math.log10(1.0 + interest);
-	console.log(denominator);
 	var months = Math.ceil(numerator / denominator);
-	return months;
-}
-
-function monthsLeftTest(balance, interest, monthly) {
-	var months = 0;
-	while(balance > 0) {
-		months++;
-		balance = (balance - monthly) * (1.0 + interest);
-	}
 	return months;
 }
 
