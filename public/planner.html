@@ -53,10 +53,12 @@
     }
     
 	function handleSignOut() {
-      var googleAuth = gapi.auth2.getAuthInstance();
-      googleAuth.signOut().then(function() {
-        firebase.auth().signOut();
-      });
+	  if(!document.getElementById("signout").disabled) {
+	  	var googleAuth = gapi.auth2.getAuthInstance();
+	    googleAuth.signOut().then(function() {
+	      firebase.auth().signOut();
+	    });
+	  }
     }	
 
 
@@ -65,7 +67,7 @@
       // [START authstatelistener]
       firebase.auth().onAuthStateChanged(function(user){
         if (!user) {
-          window.location= '/';
+          // window.location= '/';
           // [END_EXCLUDE]
         } else {
           // User is signed out.
@@ -86,24 +88,29 @@
 
 </head>
 <body ng-app="main" ng-controller="main">
-	<button disabled class="mdl-button mdl-js-button mdl-button--raised" id="signout" name="signout">Sign Out</button>
-	<h1>Plan Credit Card Payments</h1>
-
-	<div class="label-input-pair">
-		<label>Monthly Budget</label>
-		<input ng-change="update()" ng-model-options='{debounce:800}' ng-model="budget" min="1" type="number" name="budget-input">
+	<div id="header">
+		<img disabled src="assets/signout.png" id="signout" name="signout">
+		<!-- <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="signout" name="signout">Sign Out</button> -->
+		<h1 id="heading1">Plan Credit Card Payments</h1>
 	</div>
-	<br class="break"/>
-
-	<section id="credit-cards">
-		<div ng-repeat="card in cards">
-			<creditcard card="card" cards="cards" budget="budget"/>
+	<div id="container">
+		<div class="label-input-pair">
+			<label><b>Monthly Budget</b></label>
+			<input ng-change="update()" ng-model-options='{debounce:800}' ng-model="budget" min="1" type="number" name="budget-input">
 		</div>
-	</section>
+		<br class="break"/>
 
-	<div ng-click="newCard()" id="new-card">
-		<img src="assets/add.png">
-		<label>Add New</label>
+		<h2 id="heading2">Cards</h2>
+		<section id="credit-cards">
+			<div ng-repeat="card in cards">
+				<creditcard card="card" cards="cards" budget="budget"/>
+			</div>
+		</section>
+
+		<div ng-click="newCard()" id="new-card">
+			<img src="assets/add.png">
+			<label>Add New</label>
+		</div>
 	</div>
 </body>
 </html>

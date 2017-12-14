@@ -25,7 +25,7 @@ app.controller("main", function ($scope) {
 
 	$scope.newCard = function () {
 		card = {
-			name: "New Card",
+			name: "",
 			balance: undefined,
 			interest: undefined,
 			minimum: undefined,
@@ -52,7 +52,7 @@ app.directive("creditcard", function () {
 		template: (
 			"<div>" +
 				"<div class='label-input-pair'>" +
-					"<label for='name'>Card Name</label>" +
+					"<label for='name'>Name</label>" +
 					"<input ng-model='card.name' ng-change='update()' ng-model-options='{debounce:800}' type='text' name='name' id='name'>" +
 				"</div>" +
 				"<div class='label-input-pair'>" +
@@ -139,7 +139,7 @@ function updatePayoffs(scope) {
 		var tempMonthly = card.monthly + additionalMonthly;
 		var monthsToGo = monthsLeft(tempBalance, card.interest * 0.01, tempMonthly);
 		var paidOff = (prevMonths + monthsToGo).months().fromNow();
-		card.paidBy = paidOff.toString("M-yyyy");
+		card.paidBy = paidOff.toString("M/yy");
 		prevMonths += monthsToGo;
 		additionalMonthly += tempMonthly;
 	});
