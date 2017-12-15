@@ -67,14 +67,13 @@ app.directive("creditcard", function () {
 					"<label for='minimum'>Minimum Payment</label>" +
 					"<input ng-model='card.minimum' ng-change='update()' ng-model-options='{debounce:800}' min='0' type='number' name='minimum' id='minimum'>" +
 				"</div>" +
-				"<br class='break'/>" +
 				"<div class='label-input-pair'>" +
 					"<label for='payment'>Monthly Payment</label>" +
-					"<input ng-model='card.monthly' type='number' name='payment' id='payment'>" +
+					"<input disabled ng-model='card.monthly' type='number' name='payment' id='payment'>" +
 				"</div>" +
 				"<div class='label-input-pair'>" +
 					"<label for='paid'>Paid Off By</label>" +
-					"<input ng-model='card.paidBy' type='text' name='paid' id='paid'><br>" +
+					"<input disabled ng-model='card.paidBy' type='text' name='paid' id='paid'><br>" +
 				"</div>" +
 				"<img ng-click='delete(card)' src='assets/delete.png' class='delete'/>" +
 				"<br class='break'/>" +
@@ -143,7 +142,7 @@ function updatePayoffs(scope) {
 		var monthsToGo = monthsLeft(tempBalance, card.interest * 0.01, tempMonthly);
 		if(!isNaN(monthsToGo)) {
 			var paidOff = (prevMonths + monthsToGo).months().fromNow();
-			card.paidBy = paidOff.toString("M-yyyy");
+			card.paidBy = paidOff.toString("MMM yyyy");
 		} else {
 			card.paidBy = "Never";
 			return;

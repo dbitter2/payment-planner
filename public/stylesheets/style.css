@@ -15,13 +15,14 @@
 
 .delete {
 	display: block;
-	width: 50px;
+	width: 42px;
 }
 
 #header {
 	text-align: left;
-	background-color: lightseagreen;
-	border-bottom: 1px solid black;
+	background-color: darkorange;
+	box-shadow: 5px 8px #ececec;
+	margin: 15px;
 }
 
 #signout {
@@ -35,7 +36,10 @@
 }
 
 #container {
-	padding: 50px;
+	padding: 44px;
+	box-shadow: 5px 8px #ececec;
+	border: 1px solid lightgrey;
+	margin: 15px;
 }
 
 #budget-label {
@@ -54,14 +58,17 @@
 }
 
 #new-card > img {
-	width: 44px;
-	height: 44px;
+	width: 40px;
 	vertical-align: middle;
 }
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   text-align: center;
+}
+
+input:disabled {
+	background-color: #eeeeee
 }
 
 a {
