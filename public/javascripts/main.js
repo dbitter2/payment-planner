@@ -60,7 +60,7 @@ app.directive("creditcard", function () {
 					"<input ng-model='card.balance' ng-change='update()' ng-model-options='{debounce:800}' min='1' type='number' name='balance' id='balance'>" +
 				"</div>" +
 				"<div class='label-input-pair'>" +
-					"<label for='interest'>Interest Rate</label>" +
+					"<label for='interest'>APR</label>" +
 					"<input ng-model='card.interest' ng-change='update()' ng-model-options='{debounce:800}' min='0' type='number' name='interest' id='interest'>" +
 				"</div>" +
 				"<div class='label-input-pair'>" +
@@ -139,8 +139,8 @@ function updatePayoffs(scope) {
 	scope.cards.forEach(function (card) {
 		var tempBalance = balanceAfter(card, prevMonths);
 		var tempMonthly = card.monthly + additionalMonthly;
-		var monthsToGo = monthsLeft(tempBalance, card.interest * 0.01, tempMonthly);
-		if(!isNaN(monthsToGo)) {
+		var monthsToGo = monthsLeft(tempBalance, card.interest * 0.01 / 12.0, tempMonthly);
+		if(isFinite(monthsToGo)) {
 			var paidOff = (prevMonths + monthsToGo).months().fromNow();
 			card.paidBy = paidOff.toString("MMM yyyy");
 		} else {
@@ -154,7 +154,7 @@ function updatePayoffs(scope) {
 
 function balanceAfter(card, prevMonths) {
 	var tempBalance = card.balance;
-	var interest = card.interest * 0.01;
+	var interest = card.interest * 0.01 / 12.0;
 	for(var i = 0; i < prevMonths; i++) {
 		tempBalance = (tempBalance - card.monthly) * (1.0 + interest);
 	}
